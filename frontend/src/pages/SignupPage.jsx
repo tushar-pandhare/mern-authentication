@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
 
-const SignupPage = () => {
-
+export default function SignupPage() {
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -22,50 +21,75 @@ const SignupPage = () => {
       return;
     }
 
-    await axios.post("http://localhost:5000/signup", {
-      name: data.name,
-      email: data.email,
-      password: data.password
-    });
+    try {
+      await axios.post("http://localhost:5000/signup", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
-    alert("Signup successful!");
+      alert("Signup successful!");
+    } catch (err) {
+      alert("Signup failed");
+    }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Your Name"
-          onChange={handleChange}
-        />
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-500 to-purple-600">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          Create Account
+        </h2>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Your Email"
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Your Password"
-          onChange={handleChange}
-        />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
 
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Re-enter Your Password"
-          onChange={handleChange}
-        />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
 
-        <button type="submit">Signup</button>
-      </form>
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Already have an account? <span className="text-indigo-600 cursor-pointer">Login</span>
+        </p>
+      </div>
     </div>
   );
-};
-
-export default SignupPage;
+}
